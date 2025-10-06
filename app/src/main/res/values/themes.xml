@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TamaCollection" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+    </style>
+
+    <style name="Theme.TamaCollection" parent="Base.Theme.TamaCollection" />
+    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
+        <item name= "windowSplashScreenBackground">@color/white</item>
+        <item name= "windowSplashScreenAnimatedIcon">@drawable/ic_splashscreenlogo</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.TamaCollection</item>
+    </style>
+</resources>

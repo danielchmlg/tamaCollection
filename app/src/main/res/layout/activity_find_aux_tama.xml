@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".findtama.FindAuxTamaActivity">
+    <ImageView
+        android:id="@+id/imgData"
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/logotamacollection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvDataTama"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:cardBackgroundColor="@color/tama_cv_backgroud"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgData">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_data_tama" />
+
+            <TextView
+                android:id="@+id/twData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/tama_cv_backgroud"
+                android:gravity="center_vertical"
+                android:text="@string/tama_data"
+                android:textAllCaps="true"
+                android:textColor="@color/tama_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvData"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/tama_cv_backgroud"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cvDataTama">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tama_id"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:layout_marginTop="16dp"
+                android:background="@color/tama_special"/>
+            <TextView
+                android:id="@+id/tvIdTama"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tama_name"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@color/tama_special"/>
+
+            <TextView
+                android:id="@+id/tvNameTam"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                />
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tama_generation"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@color/tama_special"/>
+
+            <TextView
+                android:id="@+id/tvGenTama"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tama_year"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@color/tama_special"/>
+
+            <TextView
+                android:id="@+id/tvYearTama"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"/>
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tama_price"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@color/tama_special"/>
+
+            <TextView
+                android:id="@+id/tvPriceTama"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/tama_btn_background"
+        android:text="@string/tama_delete"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvData" />
+
+    <Button
+        android:id="@+id/btnBackData"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/tama_btn_background"
+        android:text="@string/tama_back"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDelete" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

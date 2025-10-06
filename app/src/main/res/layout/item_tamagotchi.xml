@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardBackgroundColor="@color/tama_cv_backgroud"
+    app:cardCornerRadius="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/id"
+                android:textColor="@color/tama_special"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/rvId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text = "555555"
+                android:layout_marginHorizontal="4dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/tama_text"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textColor="@color/tama_special"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/rvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text = "Danielchmlg"
+                android:layout_marginHorizontal="4dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/tama_text"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/generation"
+                android:textColor="@color/tama_special"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/rvGen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text = "Gen 1"
+                android:layout_marginHorizontal="4dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/tama_text"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/year"
+                android:textColor="@color/tama_special"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/rvYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text = "2025"
+                android:layout_marginHorizontal="4dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/tama_text"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/price"
+                android:textColor="@color/tama_special"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/rvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text = "29.99"
+                android:layout_marginHorizontal="4dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/tama_text"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

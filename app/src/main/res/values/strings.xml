@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">TamaCollection</string>
+    <string name="email">Introduzca Email</string>
+    <string name="password">Introduzca Contraseña</string>
+    <string name="tama_login">Acceder</string>
+    <string name="tama_register">Registrar</string>
+    <string name="tama_cd_ivlogin">Imagen de usuario</string>
+    <string name="tama_new">Nuevo Tamagotchi</string>
+    <string name="tama_id">Id Tamagotchi</string>
+    <string name="tama_name">Nombre Tamagotchi</string>
+    <string name="tama_generation">Generación Tamagotchi</string>
+    <string name="tama_year">Año Tamagotchi</string>
+    <string name="tama_price">Precio Tamagotchi</string>
+    <string name="tama_save">Guardar</string>
+    <string name="tama_back">Volver</string>
+    <string name="tama_add">Añadir Tamagotchi</string>
+    <string name="tama_find">Buscar Tamagotchi</string>
+    <string name="tama_col">Mi colección</string>
+    <string name="tama_close">Cerrar sesión</string>
+    <string name="tama_btn_find">Buscar</string>
+    <string name="tama_data">Datos Tamagotchi</string>
+    <string name="tama_delete">Borrar</string>
+    <string name="tama_update">Actualizar</string>
+    <string name="id">Id</string>
+    <string name="name">Nombre</string>
+    <string name="generation">Generación</string>
+    <string name="year">Año</string>
+    <string name="price">Precio</string>
+</resources>

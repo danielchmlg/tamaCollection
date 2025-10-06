@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "143538344320",
+    "project_id": "tamacollection-dch-2025",
+    "storage_bucket": "tamacollection-dch-2025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143538344320:android:b741b7373dabec15357165",
+        "android_client_info": {
+          "package_name": "com.danielcuevasdeharo.tamacollection"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1xybCnPmMPjcJIAf8CHcjt-bYMy-SG8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
