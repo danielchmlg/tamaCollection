@@ -34,7 +34,7 @@ class FindAuxTamaActivity : AppCompatActivity() {
         nameFind.text = explorer.read(id.toString().toLong()).name
         genFind.text = explorer.read(id.toString().toLong()).generation
         yearFind.text = explorer.read(id.toString().toLong()).year.toString()
-        priceFind.text = explorer.read(id.toString().toLong()).price.toString()
+        //priceFind.text = explorer.read(id.toString().toLong()).price.toString() estara en adquisicion
 
         btnDelete = findViewById(R.id.btnDelete)
         btnBackData = findViewById(R.id.btnBackData)

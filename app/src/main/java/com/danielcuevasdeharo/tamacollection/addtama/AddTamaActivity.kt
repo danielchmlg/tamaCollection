@@ -38,7 +38,7 @@ class AddTamaActivity : AppCompatActivity() {
                 val yearTama = etYearTama.text.toString().toInt()
                 val priceTama = etPriceTama.text.toString().toDouble()
 
-                val tamaAdd = Tamagotchi(idTama, nameTama, genTama, yearTama, priceTama)
+                val tamaAdd = Tamagotchi(idTama, nameTama, genTama, yearTama)
 
                 dbAdd.insert(tamaAdd)
 

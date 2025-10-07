@@ -12,14 +12,14 @@ class TamagotchiViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val name = view.findViewById<TextView>(R.id.rvName)
     val gen = view.findViewById<TextView>(R.id.rvGen)
     val year = view.findViewById<TextView>(R.id.rvYear)
-    val price = view.findViewById<TextView>(R.id.rvPrice)
+    val price = view.findViewById<TextView>(R.id.rvPrice) // en adquisición
 
     fun render(tamagotchi: Tamagotchi) {
         id.text = tamagotchi.id.toString()
         name.text = tamagotchi.name
         gen.text = tamagotchi.generation
         year.text = tamagotchi.year.toString()
-        price.text = tamagotchi.price.toString()
+        //price.text = tamagotchi.price.toString() estará en adquisición
     }
 
 }

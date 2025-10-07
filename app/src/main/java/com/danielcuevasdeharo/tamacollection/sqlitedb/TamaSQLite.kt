@@ -18,8 +18,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             generation TEXT NOT NULL,
-            year INTEGER NOT NULL,
-            price REAL NOT NULL);
+            year INTEGER NOT NULL);
             
         """.trimIndent()
         //Aseguramos que no se recibirán valores nulos con "!!"
@@ -43,7 +42,6 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         values.put("name", newTama.name)
         values.put("generation", newTama.generation)
         values.put("year", newTama.year)
-        values.put("price", newTama.price)
         //Insertamos en la tabla "tamas"
         val tamaIn = db.insert("tamas", null, values)
         db.close()
@@ -59,16 +57,15 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         //Instanciamos el cursor leerá los datos de cada columna
         val cursor: Cursor = db.rawQuery(selecQuery, arrayOf(idTama.toString()))
         //creamos el objeto readTama que almacenará los resultados de la consulta
-        var readTama = Tamagotchi(0, "", "", 0, 0.0)
+        var readTama = Tamagotchi(0, "", "", 0)
 
         if (cursor.moveToFirst()) {
             val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
             val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
             val generation = cursor.getString(cursor.getColumnIndexOrThrow("generation"))
             val year = cursor.getInt(cursor.getColumnIndexOrThrow("year"))
-            val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
 
-            readTama = Tamagotchi(id, name, generation, year, price)
+            readTama = Tamagotchi(id, name, generation, year)
         }
         cursor.close()
         db.close()
@@ -85,7 +82,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         values.put("name", newInfoTama.name)
         values.put("generation", newInfoTama.generation)
         values.put("year", newInfoTama.year)
-        values.put("price", newInfoTama.price)
+
         //Insertamos en la tabla "tamas" la nueva información
         val updateTama = db.update("tamas", values, "id=?", arrayOf(idTama.toString()))
         db.close()
@@ -146,9 +143,9 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
                 val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
                 val generation = cursor.getString(cursor.getColumnIndexOrThrow("generation"))
                 val year = cursor.getInt(cursor.getColumnIndexOrThrow("year"))
-                val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
 
-                val tamagotchi = Tamagotchi(id, name, generation, year, price)
+
+                val tamagotchi = Tamagotchi(id, name, generation, year)
                 mutableListTama.add(tamagotchi)
             } while (cursor.moveToNext())
         }

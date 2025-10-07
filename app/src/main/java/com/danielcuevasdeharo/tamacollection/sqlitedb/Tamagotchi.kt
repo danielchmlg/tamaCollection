@@ -8,6 +8,5 @@ data class Tamagotchi(
     var id: Int,
     var name: String,
     var generation: String,
-    var year: Int,
-    var price: Double
+    var year: Int
 ){}
