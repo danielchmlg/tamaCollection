@@ -13,7 +13,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
      */
     override fun onCreate(db: SQLiteDatabase) {
 
-        val createTableQuery = """
+        val createTamasTableQuery = """
             CREATE TABLE tamas(
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
@@ -22,14 +22,35 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             
         """.trimIndent()
         //Aseguramos que no se recibirán valores nulos con "!!"
-        db.execSQL(createTableQuery)
+        db.execSQL(createTamasTableQuery)
+
+        val createComercioTableQuery = """
+            CREATE TABLE comercio(
+            comId INTEGER PRIMARY KEY AUTOINCREMENT,
+            comName TEXT NOT NULL,
+            ubication TEXT NOT NULL
+            );
+        """.trimIndent()
+        db.execSQL(createComercioTableQuery)
+
+        val createAdquisicionTableQuery = """
+            CREATE TABLE adquisicion(
+            adId INTEGER PRIMARY KEY AUTOINCREMENT,
+            tamaId INTEGER NOT NULL,
+            comId INTEGER NOT NULL,
+            date TEXT NOT NULL,
+            price REAL NOT NULL,
+            FOREIGN KEY (tamaId) REFERENCES tamas(id) ON DELETE CASCADE,
+            FOREIGN KEY (comId) REFERENCES comercio(comId) ON DELETE CASCADE);
+        """.trimIndent()
+        db.execSQL(createAdquisicionTableQuery)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
 
 
     /**
-     * C R U D
+     * C R U D tamas
      */
     //Función para insertar datos en nuestra tabla "tamas"
     fun insert(newTama: Tamagotchi): Long {
@@ -98,6 +119,153 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         db.close()
         return deleteTama
     }
+
+    /**
+     * C R U D comercio
+     */
+
+    fun insertComercio(comercio: Comercio): Long {
+        val db = writableDatabase
+        val contentValues = ContentValues()
+
+        //No se incluye "comId" ya que es AUTOINCREMENT
+        contentValues.put("comName", comercio.comName)
+        contentValues.put("ubication", comercio.ubication)
+
+        //Inserta la fila. Retorna el ID de la nueva fila o -1 si es erróneo
+        val comercioIn = db.insert("comercio", null, contentValues)
+        db.close()
+        if (comercioIn > 0) {
+            //Actualizar el objeto con el ID que le asignó la DB
+            comercio.comId = comercioIn.toInt()
+        }
+        return comercioIn
+
+    }
+
+    fun readComercio(comId: Long): Comercio {
+        //Obtenemos base de dato en formato lectura
+        val db = readableDatabase
+        //Creamos la consulta a la BBDD y la almacenamos en selectQuery
+        val selecQuery = "SELECT * FROM comercio WHERE comId =?"
+        //Instanciamos el cursor leerá los datos de cada columna
+        val cursor: Cursor = db.rawQuery(selecQuery, arrayOf(comId.toString()))
+        //creamos el objeto readCom que almacenará los resultados de la consulta
+        var readCom = Comercio(0, "", "")
+
+        if (cursor.moveToFirst()) {
+            val comId = cursor.getInt(cursor.getColumnIndexOrThrow("comId"))
+            val comName = cursor.getString(cursor.getColumnIndexOrThrow("comName"))
+            val ubication = cursor.getString(cursor.getColumnIndexOrThrow("ubication"))
+
+
+            readCom = Comercio(comId, comName, ubication)
+        }
+        cursor.close()
+        db.close()
+        return readCom
+
+    }
+
+    fun update(comId: Long, newInfoCom: Comercio): Int {
+        //Obtenemos la base de datos en formato escritura
+        val db = writableDatabase
+        //Instanciamos a ContentValues para almacenar el conjunto de valores
+        val values = ContentValues()
+        //no incluimos comId ya que lo usamos en la cláusula where
+        values.put("comName", newInfoCom.comName)
+        values.put("ubication", newInfoCom.ubication)
+
+        //Insertamos en la tabla "comercio" la nueva información
+        val updateTama = db.update("comercio", values, "comId=?", arrayOf(comId.toString()))
+        db.close()
+        return updateTama
+
+    }
+
+    fun deleteComercio(comId: Long): Int {
+        //Obtenemos la base de datos en formato escritura
+        val db = writableDatabase
+        // Llamamos al función delete que almacenaremos en deleteCom
+        val deleteCom = db.delete("comercio", "comId=?", arrayOf(comId.toString()))
+        db.close()
+        return deleteCom
+    }
+
+    /**
+     * C R U D adquisición
+     */
+    fun insertAdquisicion(adquisicion: Adquisicion): Long {
+        val db = writableDatabase
+        val contentValues = ContentValues()
+
+        //No se incluye "adId" ya que es AUTOINCREMENT
+        contentValues.put("tamaId", adquisicion.tamaId)
+        contentValues.put("comId", adquisicion.comId)
+        contentValues.put("date", adquisicion.date)
+        contentValues.put("price", adquisicion.price)
+        //Inserta la fila. Retorna el ID de la nueva fila o -1 si es erróneo
+        val adquisicionIn = db.insert("adquisicion", null, contentValues)
+        db.close()
+        if (adquisicionIn > 0) {
+            adquisicion.adId = adquisicionIn.toInt()
+        }
+        return adquisicionIn
+
+    }
+
+    fun readAdquisicion(adId: Long): Adquisicion {
+        //Obtenemos base de dato en formato lectura
+        val db = readableDatabase
+        //Creamos la consulta a la BBDD y la almacenamos en selectQuery
+        val selecQuery = "SELECT * FROM adquisicion WHERE adId =?"
+        //Instanciamos el cursor leerá los datos de cada columna
+        val cursor: Cursor = db.rawQuery(selecQuery, arrayOf(adId.toString()))
+        //creamos el objeto readCom que almacenará los resultados de la consulta
+        var readAd = Adquisicion(0, 0, 0, "", 0.0)
+
+        if (cursor.moveToFirst()) {
+            val adId = cursor.getInt(cursor.getColumnIndexOrThrow("adId"))
+            val tamaIdForeign = cursor.getInt(cursor.getColumnIndexOrThrow("tamaId"))
+            val comIdForeign = cursor.getInt(cursor.getColumnIndexOrThrow("comId"))
+            val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+            val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
+
+
+            readAd = Adquisicion(adId, tamaIdForeign, comIdForeign, date, price)
+        }
+        cursor.close()
+        db.close()
+        return readAd
+
+    }
+
+    fun update(adId: Long, newInfoAd: Adquisicion): Int {
+        //Obtenemos la base de datos en formato escritura
+        val db = writableDatabase
+        //Instanciamos a ContentValues para almacenar el conjunto de valores
+        val values = ContentValues()
+        values.put("tamaId", newInfoAd.tamaId)
+        values.put("comId", newInfoAd.comId)
+        values.put("date", newInfoAd.date)
+        values.put("price", newInfoAd.price)
+
+        //Insertamos en la tabla "adquisicion" la nueva información
+        val updateTama = db.update("adquisicion", values, "adId=?", arrayOf(adId.toString()))
+        db.close()
+        return updateTama
+
+    }
+
+    fun deleteAdquisicion(adId: Long): Int {
+        //Obtenemos la base de datos en formato escritura
+        val db = writableDatabase
+        // Llamamos al función delete que almacenaremos en deleteCom
+        val deleteAd = db.delete("adquisicion", "adId=?", arrayOf(adId.toString()))
+        db.close()
+        return deleteAd
+    }
+
 
     /**
      * Función para obtener el número de Tamagotchis de la colección
