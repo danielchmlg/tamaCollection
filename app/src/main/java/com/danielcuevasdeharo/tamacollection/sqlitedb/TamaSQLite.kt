@@ -322,30 +322,32 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         return mutableListTama
 
     }
-    fun getPurchasingDetails (tamaId: Int): List<DetallesCompra>{
+
+    fun getPurchasingDetails(tamaId: Int): MutableList<DetallesCompra> {
 
         val detailsList = mutableListOf<DetallesCompra>()
         val db = this.readableDatabase //Obtenemos la base de datos en modo lectura
-        val selectQuery = "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tama AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
+        val selectQuery =
+            "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tama AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
         var cursor: Cursor? = null
-        try{
+        try {
             cursor = db.rawQuery(selectQuery, null)
 
-            if(cursor.moveToFirst()){
+            if (cursor.moveToFirst()) {
 
-                do{ //obtenemos los valores a partir del nombre de las columnas
+                do { //obtenemos los valores a partir del nombre de las columnas
                     val comName = cursor.getString(cursor.getColumnIndexOrThrow("comName"))
                     val ubication = cursor.getString(cursor.getColumnIndexOrThrow("ubication"))
                     val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
                     val date = cursor.getString((cursor.getColumnIndexOrThrow("date")))
-                    detailsList.add(DetallesCompra(comName, ubication, price,date))
+                    detailsList.add(DetallesCompra(comName, ubication, price, date))
 
-                }while(cursor.moveToNext())
+                } while (cursor.moveToNext())
 
             }
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace() //Manejamos la excepción, en este caso un Log
-        }finally {
+        } finally {
 
             //Nos aseguramos cerrar siempre el cursor y la base de datos
             cursor?.close()
