@@ -26,4 +26,8 @@
     <string name="generation">Generación</string>
     <string name="year">Año</string>
     <string name="price">Precio</string>
+    <string name="com_name">Comercio</string>
+    <string name="com_ubi">Ubicación Comercio</string>
+    <string name="adq_date">Fecha Adquisición</string>
+
 </resources>
