@@ -1,6 +1,7 @@
 package com.danielcuevasdeharo.tamacollection.recycleview.adapter
 
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.danielcuevasdeharo.tamacollection.R
@@ -12,14 +13,16 @@ class TamagotchiViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val name = view.findViewById<TextView>(R.id.rvName)
     val gen = view.findViewById<TextView>(R.id.rvGen)
     val year = view.findViewById<TextView>(R.id.rvYear)
-    val price = view.findViewById<TextView>(R.id.rvPrice) // en adquisición
+    val btnDetails = view.findViewById<Button>(R.id.btnDetails)
 
     fun render(tamagotchi: Tamagotchi) {
         id.text = tamagotchi.id.toString()
         name.text = tamagotchi.name
         gen.text = tamagotchi.generation
         year.text = tamagotchi.year.toString()
-        //price.text = tamagotchi.price.toString() estará en adquisición
+        btnDetails.setOnClickListener {
+            //TODO
+        }
     }
 
 }
