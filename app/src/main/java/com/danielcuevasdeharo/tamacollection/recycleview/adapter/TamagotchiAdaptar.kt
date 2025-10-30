@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.danielcuevasdeharo.tamacollection.R
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
 
-class TamagotchiAdaptar( private val tamagotchiList : MutableList<Tamagotchi>): RecyclerView.Adapter<TamagotchiViewHolder> (){
+class TamagotchiAdaptar( private val tamagotchiList : MutableList<Tamagotchi>,private val onBotonClicked: (Int)->Unit): RecyclerView.Adapter<TamagotchiViewHolder> (){
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,7 +24,7 @@ class TamagotchiAdaptar( private val tamagotchiList : MutableList<Tamagotchi>): 
         position: Int
     ) {
         val item = tamagotchiList[position]
-        holder.render(item)
+        holder.render(item, onBotonClicked)
     }
 
     override fun getItemCount(): Int = tamagotchiList.size

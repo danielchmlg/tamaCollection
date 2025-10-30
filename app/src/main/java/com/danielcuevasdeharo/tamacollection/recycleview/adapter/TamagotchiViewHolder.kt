@@ -15,13 +15,13 @@ class TamagotchiViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val year = view.findViewById<TextView>(R.id.rvYear)
     val btnDetails = view.findViewById<Button>(R.id.btnDetails)
 
-    fun render(tamagotchi: Tamagotchi) {
+    fun render(tamagotchi: Tamagotchi, onBotonClick: (Int)-> Unit) {
         id.text = tamagotchi.id.toString()
         name.text = tamagotchi.name
         gen.text = tamagotchi.generation
         year.text = tamagotchi.year.toString()
         btnDetails.setOnClickListener {
-            //TODO
+            onBotonClick(tamagotchi.id)
         }
     }
 
