@@ -328,10 +328,10 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         val detailsList = mutableListOf<DetallesCompra>()
         val db = this.readableDatabase //Obtenemos la base de datos en modo lectura
         val selectQuery =
-            "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tama AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
+            "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
         var cursor: Cursor? = null
         try {
-            cursor = db.rawQuery(selectQuery, null)
+            cursor = db.rawQuery(selectQuery, arrayOf(tamaId.toString()))//añado el arrayOF
 
             if (cursor.moveToFirst()) {
 
@@ -354,6 +354,36 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             db.close()
         }
         return detailsList
+    }
+
+    fun readTamaDetails(tamaId: Int): DetallesCompra? {
+
+        val db = this.readableDatabase //Obtenemos la base de datos en modo lectura
+        val selectQuery =
+            "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
+        var cursor: Cursor? = null
+        var tamaDetails: DetallesCompra? = null
+        try {
+            cursor = db.rawQuery(selectQuery, arrayOf(tamaId.toString()))
+
+            if (cursor.moveToFirst()) {
+
+                //obtenemos los valores a partir del nombre de las columnas
+                val comName = cursor.getString(cursor.getColumnIndexOrThrow("comName"))
+                val ubication = cursor.getString(cursor.getColumnIndexOrThrow("ubication"))
+                val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
+                val date = cursor.getString((cursor.getColumnIndexOrThrow("date")))
+                tamaDetails = DetallesCompra(comName, ubication, price, date)
+
+            }
+        } catch (e: Exception) {
+            e.printStackTrace() //Manejamos la excepción, en este caso un Log
+        } finally {
+            //Nos aseguramos cerrar siempre el cursor y la base de datos
+            cursor?.close()
+            db.close()
+        }
+        return tamaDetails
     }
 
 

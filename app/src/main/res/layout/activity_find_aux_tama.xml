@@ -10,7 +10,7 @@
         android:id="@+id/imgData"
         android:layout_width="350dp"
         android:layout_height="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/logotamacollection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/cvDataTama"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:cardBackgroundColor="@color/tama_cv_backgroud"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
         android:id="@+id/cvData"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:cardBackgroundColor="@color/tama_cv_backgroud"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
                 android:text="@string/tama_id"
                 android:textStyle="bold"
                 android:textAllCaps="true"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/tama_special"/>
             <TextView
                 android:id="@+id/tvIdTama"
@@ -83,7 +83,7 @@
                 android:layout_marginTop="8dp"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="8dp"/>
             <TextView
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 />
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"/>
             <TextView
                 android:layout_width="300dp"
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"/>
             <TextView
                 android:layout_width="300dp"
@@ -142,12 +142,63 @@
                 android:background="@color/tama_special"/>
 
             <TextView
+                android:id="@+id/tvComName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                />
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/com_name"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@color/tama_special"/>
+
+            <TextView
+                android:id="@+id/tvComUbi"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                />
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/com_ubi"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@color/tama_special"/>
+
+            <TextView
+                android:id="@+id/tvAdqDate"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                />
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/adq_date"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@color/tama_special"/>
+
+            <TextView
                 android:id="@+id/tvPriceTama"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 />
 
@@ -159,7 +210,7 @@
         android:id="@+id/btnDelete"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/tama_btn_background"
         android:text="@string/tama_delete"
         android:textAllCaps="true"
@@ -172,7 +223,7 @@
         android:id="@+id/btnBackData"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/tama_btn_background"
         android:text="@string/tama_back"
         android:textAllCaps="true"
