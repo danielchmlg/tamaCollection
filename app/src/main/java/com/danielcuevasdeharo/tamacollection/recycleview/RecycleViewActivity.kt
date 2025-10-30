@@ -12,7 +12,6 @@ import com.danielcuevasdeharo.tamacollection.recycleview.adapter.TamagotchiAdapt
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 
 
-
 class RecycleViewActivity : AppCompatActivity() {
     private lateinit var mlTama: TamaSQLite
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +26,7 @@ class RecycleViewActivity : AppCompatActivity() {
         mlTama = TamaSQLite(this)
         val recyclerView = findViewById<RecyclerView>(R.id.recycleTama)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val onTamaClicked: (Int) ->Unit = { tamaId->
+        val onTamaClicked: (Int) -> Unit = { tamaId ->
             navigateToDetails(tamaId)
 
         }
@@ -35,12 +34,14 @@ class RecycleViewActivity : AppCompatActivity() {
 
         recyclerView.adapter = TamagotchiAdaptar(mlTama.getAllTama(), onTamaClicked)
     }
+
     private fun navigateToDetails(tamaId: Int) {
-        val intent = Intent(this, DetailsActivity::class.java).apply {
-            // Empaquetamos el ID del Tamagotchi
-            putExtra("TAMA_ID", tamaId)
-        }
+        val intent = Intent(this, DetailsActivity::class.java)
+        // Empaquetamos el ID del Tamagotchi
+        intent.putExtra("TAMA_ID", tamaId.toString())
         startActivity(intent)
+
+
     }
 }
 

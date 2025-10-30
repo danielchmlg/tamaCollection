@@ -142,7 +142,7 @@
                 android:background="@color/tama_special"/>
 
             <TextView
-                android:id="@+id/tvComName"
+                android:id="@+id/tvPriceTama"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -159,7 +159,7 @@
                 android:background="@color/tama_special"/>
 
             <TextView
-                android:id="@+id/tvComUbi"
+                android:id="@+id/tvComName"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -176,7 +176,7 @@
                 android:background="@color/tama_special"/>
 
             <TextView
-                android:id="@+id/tvAdqDate"
+                android:id="@+id/tvComUbi"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -193,7 +193,7 @@
                 android:background="@color/tama_special"/>
 
             <TextView
-                android:id="@+id/tvPriceTama"
+                android:id="@+id/tvAdqDate"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
