@@ -28,7 +28,7 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Thread.sleep(3000)
+        //Thread.sleep(3000)
         installSplashScreen()
         setContentView(R.layout.activity_auth)
 
@@ -57,13 +57,13 @@ class AuthActivity : AppCompatActivity() {
     private fun initListeners() {
 
         btnRegister.setOnClickListener {
-            val email = findViewById<EditText>(R.id.etEmail).text.toString()
-            val password = findViewById<EditText>(R.id.etPassword).text.toString()
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
             register(email, password)
         }
         btnLogin.setOnClickListener {
-            val email = findViewById<EditText>(R.id.etEmail).text.toString()
-            val password = findViewById<EditText>(R.id.etPassword).text.toString()
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
             access(email, password)
         }
     }
@@ -91,12 +91,13 @@ class AuthActivity : AppCompatActivity() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    navigateToMenu()
+
                     Toast.makeText(
                         this,
                         "Se ha accedido con el email: $email",
                         Toast.LENGTH_SHORT
                     ).show()
+                    navigateToMenu()
                 } else {
                     alert()
                 }
