@@ -9,4 +9,4 @@ data class Tamagotchi(
     var name: String,
     var generation: String,
     var year: Int
-){}
+)

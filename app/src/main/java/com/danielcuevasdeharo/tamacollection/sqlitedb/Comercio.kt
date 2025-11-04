@@ -5,5 +5,4 @@ package com.danielcuevasdeharo.tamacollection.sqlitedb
  * por la base de datos.
  */
 
-data class Comercio (var comId: Int? = null, var comName: String, var ubication: String) {
-}
+data class Comercio(var comId: Int? = null, var comName: String, var ubication: String)

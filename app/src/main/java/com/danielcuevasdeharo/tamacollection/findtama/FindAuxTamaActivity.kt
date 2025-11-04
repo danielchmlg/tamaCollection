@@ -35,9 +35,9 @@ class FindAuxTamaActivity : AppCompatActivity() {
         explorer = TamaSQLite(this)
 
         idFind.text = id
-        nameFind.text = explorer.read(id.toString().toLong()).name
-        genFind.text = explorer.read(id.toString().toLong()).generation
-        yearFind.text = explorer.read(id.toString().toLong()).year.toString()
+        nameFind.text = explorer.read(id.toString().toLong())!!.name
+        genFind.text = explorer.read(id.toString().toLong())!!.generation
+        yearFind.text = explorer.read(id.toString().toLong())!!.year.toString()
         priceFind.text= explorer.readTamaDetails(id.toString().toInt())!!.price.toString()
         comNomFind.text =explorer.readTamaDetails(id.toString().toInt())!!.comName
         comUbiFind.text= explorer.readTamaDetails(id.toString().toInt())!!.ubication
