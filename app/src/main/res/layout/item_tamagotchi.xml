@@ -129,19 +129,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:gravity="center">
 
 
             <Button
                 android:id="@+id/btnDetails"
-                android:layout_width="170dp"
+                android:gravity="center"
+                android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:text="Detalle compra"
+                android:text="@string/details_item"
+                android:textSize="12sp"
                 android:backgroundTint="@color/tama_btn_background"
                 android:textAllCaps="true"
                 android:textStyle="bold"/>
+            <Button
+                android:id="@+id/btnDelteItem"
+                android:gravity="center"
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="@string/tama_delete"
+                android:textSize="12sp"
+                android:backgroundTint="@color/tama_btn_background"
+                android:textAllCaps="true"
+                android:textStyle="bold"/>
+
 
 
         </LinearLayout>

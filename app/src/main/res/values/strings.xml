@@ -29,6 +29,7 @@
     <string name="com_name">Comercio</string>
     <string name="com_ubi">Ubicación Comercio</string>
     <string name="adq_date">Fecha Adquisición</string>
-    <string name = "details">Detales Compra</string>
+    <string name = "details">Detalles Compra</string>
+    <string name = "details_item">Detalles</string>
 
 </resources>
