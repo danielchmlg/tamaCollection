@@ -72,7 +72,7 @@ class MenuActivity : AppCompatActivity() {
 
         }
 
-        btnNewTama.setOnClickListener { navigate(AddTamaActivity::class.java, false) }
+        btnNewTama.setOnClickListener { navigate(AddTamaActivity::class.java) }
         btnFindTama.setOnClickListener { navigate(FindTamaActivity::class.java) }
         btnColTama.setOnClickListener { navigate(RecycleViewActivity::class.java) }
     }
