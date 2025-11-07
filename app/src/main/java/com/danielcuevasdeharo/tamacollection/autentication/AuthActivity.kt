@@ -14,6 +14,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.auth
 
 class AuthActivity : AppCompatActivity() {
@@ -28,32 +30,31 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Thread.sleep(3000)
         installSplashScreen()
         setContentView(R.layout.activity_auth)
-
+        //Iniciamos los componentes y Google Analytics
         initComponent()
-        //Lanzamiento de eventos personalizados a Google Analytics
-        firebaseAnalytics = Firebase.analytics
-        val bundle = Bundle()
-        bundle.putString("message", "Integración de Firebase completada")
-        firebaseAnalytics.logEvent("InitScreen", bundle)
+        logAnalytics()
 
-
-        // Preparación para el login
-
-        initListeners()
-
+       //Comprobamos si el usuario ya esta logado
+        if(auth.currentUser != null){
+            //si lo está vamos al menú
+            navigateToMenu()
+        }else{
+            //si no lo está iniciamos los listener de los botones
+            initListeners()
+        }
     }
-
+    //Función para iniciar los componentes
     private fun initComponent() {
         auth = Firebase.auth
+        firebaseAnalytics = Firebase.analytics
         btnLogin = findViewById(R.id.btnLogin)
         btnRegister = findViewById(R.id.btnRegister)
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
     }
-
+    //Función para iniciar los listeners de los botones
     private fun initListeners() {
 
         btnRegister.setOnClickListener {
@@ -67,7 +68,15 @@ class AuthActivity : AppCompatActivity() {
             access(email, password)
         }
     }
+    //Función para iniciar Google Analytics
+    private fun logAnalytics(){
+        //Lanzamiento de eventos personalizados a Google Analytics
+        val bundle = Bundle()
+        bundle.putString("message", "Integración de Firebase completada")
+        firebaseAnalytics.logEvent("InitScreen", bundle)
 
+    }
+    //Función para registrarse en Firebase
     private fun register(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
@@ -80,13 +89,13 @@ class AuthActivity : AppCompatActivity() {
                     navigateToMenu()
 
                 } else {
-                    alert()
+                    alert(it.exception)
                 }
             }
         }
 
     }
-
+    //Función para hacer login en Firebase
     private fun access(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
@@ -99,24 +108,36 @@ class AuthActivity : AppCompatActivity() {
                     ).show()
                     navigateToMenu()
                 } else {
-                    alert()
+                    alert(it.exception)
                 }
             }
         }
 
     }
 
-    private fun alert() {
+    //Función para mostrar mensaje de error a la hora de hacer login o registrarse
+    private fun alert(exception: Exception?){
+        val message = when(exception){
+            is FirebaseAuthInvalidCredentialsException -> "La contraseña es incorrecta o la cuenta de usuario no existe."
+            is FirebaseAuthUserCollisionException->"El email ya está registrado por otro usuario."
+            else -> "Se ha producido un error al autenticar al usuario."
+        }
+
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error al acceder/registrar en la aplicación")
-        builder.setPositiveButton("Cerrar", null)
+        builder.setTitle("Error de autenticación")
+        builder.setMessage(message)
+        builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
-    }
 
+    }
+    /*Función para navegar al menú asegurando que el usuario, si pulsa el botón atrás
+     *de su dispositivo no le mandará a hacer login de nuevo gracias al uso de "banderas"
+     */
     private fun navigateToMenu() {
-        intent = Intent(this, MenuActivity::class.java)
+        val intent = Intent(this, MenuActivity::class.java).apply{
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
 
         startActivity(intent)
 
