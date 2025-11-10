@@ -1,9 +1,7 @@
 package com.danielcuevasdeharo.tamacollection.addtama
 
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -21,41 +19,101 @@ private lateinit var dbAdd: TamaSQLite
 class AddTamaActivity : AppCompatActivity() {
     private lateinit var btnSaveTama: Button
     private lateinit var btnBackAdd: Button
+    private lateinit var etIdTama: EditText
+    private lateinit var etNameTama: EditText
+    private lateinit var etGenTama: EditText
+    private lateinit var etYearTama: EditText
+    private lateinit var etPriceTama: EditText
+    private lateinit var etComName: EditText
+    private lateinit var etComUbi: EditText
+    private lateinit var etAdqDate: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_add_tama)
 
         initComponent()
+        initListener()
+    }
 
-        val etIdTama = findViewById<EditText>(R.id.etIdTama)
-        val etNameTama = findViewById<EditText>(R.id.etNameTam)
-        val etGenTama = findViewById<EditText>(R.id.etGenTama)
-        val etYearTama = findViewById<EditText>(R.id.etYearTama)
-        val etPriceTama = findViewById<EditText>(R.id.etPriceTama)
-        val etComName = findViewById<EditText>(R.id.etComName)
-        val etComUbi = findViewById<EditText>(R.id.etComUbi)
-        val etAdqDate = findViewById<EditText>(R.id.etAdqDate)
+    private fun initComponent() {
+        dbAdd = TamaSQLite(this)
+        btnSaveTama = findViewById(R.id.btnSaveTama)
+        btnBackAdd = findViewById(R.id.btnBackAdd)
+        etIdTama = findViewById(R.id.etIdTama)
+        etNameTama = findViewById(R.id.etNameTam)
+        etGenTama = findViewById(R.id.etGenTama)
+        etYearTama = findViewById(R.id.etYearTama)
+        etPriceTama = findViewById(R.id.etPriceTama)
+        etComName = findViewById(R.id.etComName)
+        etComUbi = findViewById(R.id.etComUbi)
+        etAdqDate = findViewById(R.id.etAdqDate)
+    }
 
-        etAdqDate.setOnClickListener {
-            viewDatePicker(etAdqDate)
+    private fun initListener() {
+        etAdqDate.setOnClickListener { viewDatePicker() }
+        btnBackAdd.setOnClickListener { finish() }
+        btnSaveTama.setOnClickListener { saveData() }
+    }
+
+    //Función para commprobar que los campos no estén vacios y se introduzcan los datos correctos
+    private fun saveData() {
+
+        val idString = etIdTama.text.toString()
+        val nameTama = etNameTama.text.toString().trim()
+        val genTama = etGenTama.text.toString().trim()
+        val yearString = etYearTama.text.toString()
+        val priceString = etPriceTama.text.toString()
+        val comName = etComName.text.toString().trim()
+        val comUbi = etComUbi.text.toString().trim()
+        val adqDate = etAdqDate.text.toString()
+
+        if (listOf(
+                idString,
+                nameTama,
+                genTama,
+                yearString,
+                priceString,
+                comName,
+                comUbi,
+                adqDate
+            ).any { it.isEmpty() }
+        ) {
+            Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
+            return
+        }
+        //convertimos las variables a números de forma segura:
+        val idTama = idString.toIntOrNull()
+        val yearTama = yearString.toIntOrNull()
+        val priceTama = priceString.toDoubleOrNull()
+        //Comprobamos que se introduzca números en los editText del id, año y precio
+        if (idTama == null || yearTama == null || priceTama == null) {
+            Toast.makeText(
+                this,
+                " Por favor, intruduzca un número válido para id, año y precio",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
         }
 
-        btnSaveTama.setOnClickListener {
-            val idTama = etIdTama.text.toString().toInt()
-            val nameTama = etNameTama.text.toString()
-            val genTama = etGenTama.text.toString()
-            val yearTama = etYearTama.text.toString().toInt()
-            val priceTama = etPriceTama.text.toString().toDouble()
-            val comName = etComName.text.toString()
-            val comUbi = etComUbi.text.toString()
-            val adqDate = etAdqDate.text.toString()
+        //Comprobamos si el id que se quiere registrar ya está registrado
+        if (dbAdd.isIdInUse(idTama)) {
+            Toast.makeText(
+                this,
+                " El ID $idTama ya se encuentra registrado. Por favor use uno nuevo",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
 
+        try {
+            //introducimos en la tabla tama
             val tamaAdd = Tamagotchi(idTama, nameTama, genTama, yearTama)
             dbAdd.insert(tamaAdd)
+            //Introducimos en la tabla comercio
             val comAdd = Comercio(comName = comName, ubication = comUbi)
             val idcom = dbAdd.insertComercio(comAdd)
-
+            //Introducimos en la tabla adquisicion
             val adqAdd = Adquisicion(
                 tamaId = idTama,
                 comId = idcom.toInt(),
@@ -64,27 +122,24 @@ class AddTamaActivity : AppCompatActivity() {
             )
             dbAdd.insertAdquisicion(adqAdd)
 
-
+            //Mensaje de registro satisfactorio
             Toast.makeText(this, "Se ha registrado el id $idTama", Toast.LENGTH_SHORT).show()
             finish()
+        } catch (e: Exception) {
+            //Si cualquiera de las operaciones dentro del try falla la ejecución parará aquí
+            e.printStackTrace()
 
+            //Lanzamos mensaje de error
+            Toast.makeText(
+                this,
+                "Error: No se pudo guardar el registro.",
+                Toast.LENGTH_LONG
+            ).show()
         }
-        btnBackAdd.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                finish()
-            }
-        })
-
 
     }
 
-    private fun initComponent() {
-        dbAdd = TamaSQLite(this)
-        btnSaveTama = findViewById(R.id.btnSaveTama)
-        btnBackAdd = findViewById(R.id.btnBackAdd)
-    }
-
-    private fun viewDatePicker(etAdqDate: EditText) {
+    private fun viewDatePicker() {
         val calendar = Calendar.getInstance()
 
         val year = calendar.get(Calendar.YEAR)
@@ -97,7 +152,7 @@ class AddTamaActivity : AppCompatActivity() {
                 val correctedMonth = selectedMonth + 1
                 //Formateamos la fecha a YYYY-MM-DD para poder guardar como TEXT en la BBDD
                 val bbddDate =
-                    String.format("%d-%02d-%02d", selectedYear, selectedMonth, selectedDay)
+                    String.format("%d-%02d-%02d", selectedYear, correctedMonth, selectedDay)
 
                 etAdqDate.setText(bbddDate)
             },

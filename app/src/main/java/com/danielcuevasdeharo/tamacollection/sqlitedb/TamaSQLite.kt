@@ -474,6 +474,26 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         }
         return null
     }
+    fun isIdInUse(id: Int): Boolean {
+        // Obtenemos la base de datos en formato lectura
+        val db = this.readableDatabase
+
+        //Creamos la consulta que nos comprobará si el id ya está en la base de datos registrado
+        val query = "SELECT id FROM tamas WHERE id = ?"
+
+        //Instanciamos el cursor que leerá los datos de cada columna
+        val cursor = db.rawQuery(query, arrayOf(id.toString()))
+
+        /*Comprueba el resultado. Si 'count' es mayor que 0, significa que ha encontrado
+        * al menos una fila con ese ID, por lo tanto, el ID ya existe.
+        */
+        val idExists = cursor.count > 0
+        //Libera recursos.
+        cursor.close()
+        db.close()
+        //Devuelve el resultado. 'idExists' será 'true' o 'false'.
+        return idExists
+    }
 
 
 }
