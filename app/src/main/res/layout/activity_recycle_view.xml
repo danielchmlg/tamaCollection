@@ -3,10 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".recycleview.RecycleViewActivity">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleTama"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="32dp"
+        android:src="@drawable/ic_back"
+        app:backgroundTint="@color/tama_btn_background"
+        app:fabSize="normal"
+        app:tint="@color/white" />
 
 </FrameLayout>

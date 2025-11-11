@@ -11,27 +11,41 @@ import com.danielcuevasdeharo.tamacollection.R
 import com.danielcuevasdeharo.tamacollection.recycleview.adapter.TamagotchiAdaptar
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class RecycleViewActivity : AppCompatActivity() {
     private lateinit var mlTama: TamaSQLite
+    private lateinit var fabBack: FloatingActionButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_recycle_view)
+        initComponent()
+        initListener()
         initRecyclerView()
+
 
     }
 
-    private fun initRecyclerView() {
+    private fun initComponent() {
         mlTama = TamaSQLite(this)
+        fabBack = findViewById(R.id.fabReturn)
+    }
+
+    private fun initListener() {
+        fabBack.setOnClickListener { finish() }
+    }
+
+    private fun initRecyclerView() {
+
         val recyclerView = findViewById<RecyclerView>(R.id.recycleTama)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val onDetailsClicked: (Tamagotchi) -> Unit = { tamagotchi ->
             navigateToDetails(tamagotchi.id) //usamos el id del objeto recibido por la fución lambda
 
         }
-        val onDeleteClicked: (Tamagotchi)-> Unit ={tamagotchi->
+        val onDeleteClicked: (Tamagotchi) -> Unit = { tamagotchi ->
             //Borra el tamagotchi de la BBDD
             mlTama.delete(tamagotchi.id.toLong())
             //Obtenemos la lista actualizada desde la base de datos
@@ -41,7 +55,8 @@ class RecycleViewActivity : AppCompatActivity() {
 
         }
 
-        recyclerView.adapter = TamagotchiAdaptar(mlTama.getAllTama(), onDetailsClicked, onDeleteClicked)
+        recyclerView.adapter =
+            TamagotchiAdaptar(mlTama.getAllTama(), onDetailsClicked, onDeleteClicked)
     }
 
     private fun navigateToDetails(tamaId: Int) {
