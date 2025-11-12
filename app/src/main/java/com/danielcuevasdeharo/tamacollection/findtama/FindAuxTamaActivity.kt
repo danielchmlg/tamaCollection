@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.danielcuevasdeharo.tamacollection.R
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
+import com.google.firebase.auth.FirebaseAuth
 
 class FindAuxTamaActivity : AppCompatActivity() {
     private lateinit var btnDelete: Button
@@ -69,16 +70,20 @@ class FindAuxTamaActivity : AppCompatActivity() {
 
     private fun loadData() {
 
+        //Obtenemos el usuario autenticado
+
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
         //Obtenemos el ID que nos envió el Intent y los datos de los TextView
         val id = intent.getStringExtra("id")
         tvId.text = id
-        tvName.text = db.read(id.toString().toLong())!!.name
-        tvGen.text = db.read(id.toString().toLong())!!.generation
-        tvYear.text = db.read(id.toString().toLong())!!.year.toString()
-        tvPrice.text = db.readTamaDetails(id.toString().toInt())!!.price.toString()
-        tvComName.text = db.readTamaDetails(id.toString().toInt())!!.comName
-        tvComUbi.text = db.readTamaDetails(id.toString().toInt())!!.ubication
-        tvAdqDate.text = db.readTamaDetails(id.toString().toInt())!!.date
+        tvName.text = db.read(id.toString().toLong(), userId)!!.name
+        tvGen.text = db.read(id.toString().toLong(), userId)!!.generation
+        tvYear.text = db.read(id.toString().toLong(), userId)!!.year.toString()
+        tvPrice.text = db.readTamaDetails(id.toString().toInt(), userId)!!.price.toString()
+        tvComName.text = db.readTamaDetails(id.toString().toInt(), userId)!!.comName
+        tvComUbi.text = db.readTamaDetails(id.toString().toInt(), userId)!!.ubication
+        tvAdqDate.text = db.readTamaDetails(id.toString().toInt(), userId)!!.date
 
     }
 }

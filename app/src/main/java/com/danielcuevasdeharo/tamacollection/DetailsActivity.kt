@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
+import com.google.firebase.auth.FirebaseAuth
 
 class DetailsActivity : AppCompatActivity() {
     private lateinit var btnBackDetails : Button
@@ -24,21 +25,18 @@ class DetailsActivity : AppCompatActivity() {
         val ubi = findViewById<TextView>(R.id.tvUbi)
         val date = findViewById<TextView>(R.id.tvDate)
 
+        //Obtención del usuario autenticado
+        val userId= FirebaseAuth.getInstance().currentUser!!.uid
+
         explorer = TamaSQLite(this)
-        price.text= explorer.readTamaDetails(id.toString().toInt())!!.price.toString()
-        name.text =explorer.readTamaDetails(id.toString().toInt())!!.comName
-        ubi.text= explorer.readTamaDetails(id.toString().toInt())!!.ubication
-        date.text=explorer.readTamaDetails(id.toString().toInt())!!.date
+        price.text= explorer.readTamaDetails(id.toString().toInt(), userId)!!.price.toString()
+        name.text =explorer.readTamaDetails(id.toString().toInt(), userId)!!.comName
+        ubi.text= explorer.readTamaDetails(id.toString().toInt(), userId)!!.ubication
+        date.text=explorer.readTamaDetails(id.toString().toInt(), userId)!!.date
 
         btnBackDetails= findViewById<Button>(R.id.btnBackDetails)
 
-        btnBackDetails.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-
-                finish()
-            }
-
-        })
+        btnBackDetails.setOnClickListener{finish()}
 
     }
 

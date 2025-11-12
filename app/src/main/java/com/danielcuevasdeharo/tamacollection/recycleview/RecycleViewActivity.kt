@@ -12,6 +12,7 @@ import com.danielcuevasdeharo.tamacollection.recycleview.adapter.TamagotchiAdapt
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 
 
 class RecycleViewActivity : AppCompatActivity() {
@@ -41,6 +42,7 @@ class RecycleViewActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycleTama)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
         val onDetailsClicked: (Tamagotchi) -> Unit = { tamagotchi ->
             navigateToDetails(tamagotchi.id) //usamos el id del objeto recibido por la fución lambda
 
@@ -49,14 +51,14 @@ class RecycleViewActivity : AppCompatActivity() {
             //Borra el tamagotchi de la BBDD
             mlTama.delete(tamagotchi.id.toLong())
             //Obtenemos la lista actualizada desde la base de datos
-            val updatedList = mlTama.getAllTama()
+            val updatedList = mlTama.getAllTama(userId)
             //Actualiza el adaptador con la nueva lista
             (recyclerView.adapter as? TamagotchiAdaptar)?.updateData(updatedList)
 
         }
 
         recyclerView.adapter =
-            TamagotchiAdaptar(mlTama.getAllTama(), onDetailsClicked, onDeleteClicked)
+            TamagotchiAdaptar(mlTama.getAllTama(userId), onDetailsClicked, onDeleteClicked)
     }
 
     private fun navigateToDetails(tamaId: Int) {

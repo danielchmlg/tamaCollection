@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.danielcuevasdeharo.tamacollection.R
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
+import com.google.firebase.auth.FirebaseAuth
 
 class FindTamaActivity : AppCompatActivity() {
     private lateinit var btnFind: Button
@@ -34,6 +35,8 @@ class FindTamaActivity : AppCompatActivity() {
     private fun initListener() {
         //Configuramos botón de buscar
         btnFind.setOnClickListener {
+            //Obtenemos usuario autenticado
+            val userId = FirebaseAuth.getInstance().currentUser!!.uid
             //validamos que el campo no esté vacío
             val idText = etIdFind.text.toString().trim()
             if (idText.isEmpty()) {
@@ -47,7 +50,7 @@ class FindTamaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             //Comprobamos si el id que se quiere registrar ya está registrado
-            if ((!db.isIdInUse(idNumber))) {
+            if ((!db.isIdInUse(idNumber, userId))) {
                 Toast.makeText(
                     this,
                     " El ID $idNumber no se encuentra registrado",

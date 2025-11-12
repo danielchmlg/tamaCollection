@@ -12,6 +12,7 @@ import com.danielcuevasdeharo.tamacollection.sqlitedb.Adquisicion
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Comercio
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
+import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
 private lateinit var dbAdd: TamaSQLite
@@ -97,7 +98,8 @@ class AddTamaActivity : AppCompatActivity() {
         }
 
         //Comprobamos si el id que se quiere registrar ya está registrado
-        if (dbAdd.isIdInUse(idTama)) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        if (dbAdd.isIdInUse(idTama, userId)) {
             Toast.makeText(
                 this,
                 " El ID $idTama ya se encuentra registrado. Por favor use uno nuevo",
@@ -108,7 +110,7 @@ class AddTamaActivity : AppCompatActivity() {
 
         try {
             //introducimos en la tabla tama
-            val tamaAdd = Tamagotchi(idTama, nameTama, genTama, yearTama)
+            val tamaAdd = Tamagotchi(idTama, nameTama, genTama, yearTama, userId)
             dbAdd.insert(tamaAdd)
             //Introducimos en la tabla comercio
             val comAdd = Comercio(comName = comName, ubication = comUbi)

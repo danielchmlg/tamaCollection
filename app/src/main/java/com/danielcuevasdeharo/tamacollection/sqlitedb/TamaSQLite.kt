@@ -18,7 +18,8 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             generation TEXT NOT NULL,
-            year INTEGER NOT NULL);
+            year INTEGER NOT NULL,
+            user_id TEXT NOT NULL);
             
         """.trimIndent()
         //Aseguramos que no se recibirán valores nulos con "!!"
@@ -69,6 +70,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             values.put("name", newTama.name)
             values.put("generation", newTama.generation)
             values.put("year", newTama.year)
+            values.put("user_id",newTama.userId)
             //Insertamos en la tabla "tamas"
             val tamaIn = db.insert("tamas", null, values)
             return tamaIn
@@ -78,7 +80,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
 
     }
 
-    fun read(idTama: Long): Tamagotchi? { //devuelve un Tamagotchi si existen datos
+    fun read(idTama: Long, userId: String): Tamagotchi? { //devuelve un Tamagotchi si existen datos
 
         var db: SQLiteDatabase? = null
         var cursor: Cursor? = null
@@ -86,11 +88,11 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             //Obtenemos base de dato en formato lectura
             db = readableDatabase
             //Creamos la consulta a la BBDD y la almacenamos en selectQuery
-            val selecQuery = "SELECT * FROM tamas WHERE id =?"
+            val selecQuery = "SELECT * FROM tamas WHERE id =? AND user_id = ?"
             //Instanciamos el cursor leerá los datos de cada columna
-            cursor = db.rawQuery(selecQuery, arrayOf(idTama.toString()))
+            cursor = db.rawQuery(selecQuery, arrayOf(idTama.toString(), userId))
             //creamos el objeto readTama que almacenará los resultados de la consulta
-            var readTama = Tamagotchi(0, "", "", 0)
+            var readTama = Tamagotchi(0, "", "", 0, "")
 
             if (cursor.moveToFirst()) {
                 val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
@@ -98,7 +100,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
                 val generation = cursor.getString(cursor.getColumnIndexOrThrow("generation"))
                 val year = cursor.getInt(cursor.getColumnIndexOrThrow("year"))
                 //Devolvemos objeto readTama si el cursor no esta vacío
-                readTama = Tamagotchi(id, name, generation, year)
+                readTama = Tamagotchi(id, name, generation, year, userId)
                 return readTama
             }
 
@@ -374,7 +376,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
      */
 
 
-    fun getAllTama(): MutableList<Tamagotchi> {
+    fun getAllTama(userId: String): MutableList<Tamagotchi> {
         //Creamos la MutableList
         val mutableListTama = mutableListOf<Tamagotchi>()
         var db: SQLiteDatabase? = null
@@ -383,9 +385,9 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             //Obtenemos base de dato en formato lectura
             db = this.readableDatabase
             //Creamos la consulta a la BBDD y la almacenamos en selectQuery
-            val selecQuery = "SELECT * FROM tamas"
+            val selecQuery = "SELECT * FROM tamas WHERE user_id =?"
             //Instanciamos el cursor leerá los datos de cada columna
-            cursor = db.rawQuery(selecQuery, null)
+            cursor = db.rawQuery(selecQuery, arrayOf(userId))
 
 
             if (cursor.moveToFirst()) {
@@ -394,9 +396,10 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
                     val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
                     val generation = cursor.getString(cursor.getColumnIndexOrThrow("generation"))
                     val year = cursor.getInt(cursor.getColumnIndexOrThrow("year"))
+                    val uid = cursor.getString(cursor.getColumnIndexOrThrow("user_id"))
 
 
-                    val tamagotchi = Tamagotchi(id, name, generation, year)
+                    val tamagotchi = Tamagotchi(id, name, generation, year, uid)
                     mutableListTama.add(tamagotchi)
                 } while (cursor.moveToNext())
             }
@@ -441,15 +444,15 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         return detailsList
     }
 
-    fun readTamaDetails(tamaId: Int): DetallesCompra? {
+    fun readTamaDetails(tamaId: Int, userId: String): DetallesCompra? {
         var cursor: Cursor? = null
         var tamaDetails: DetallesCompra? = null
         var db: SQLiteDatabase? = null
         try {
             db = this.readableDatabase //Obtenemos la base de datos en modo lectura
             val selectQuery =
-                "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
-            cursor = db.rawQuery(selectQuery, arrayOf(tamaId.toString()))
+                "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=? AND T1.user_id = ?"
+            cursor = db.rawQuery(selectQuery, arrayOf(tamaId.toString(), userId))
 
             if (cursor.moveToFirst()) {
 
@@ -474,15 +477,15 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         }
         return null
     }
-    fun isIdInUse(id: Int): Boolean {
+    fun isIdInUse(id: Int, userId: String): Boolean {
         // Obtenemos la base de datos en formato lectura
         val db = this.readableDatabase
 
         //Creamos la consulta que nos comprobará si el id ya está en la base de datos registrado
-        val query = "SELECT id FROM tamas WHERE id = ?"
+        val query = "SELECT id FROM tamas WHERE id = ? AND user_id = ?"
 
         //Instanciamos el cursor que leerá los datos de cada columna
-        val cursor = db.rawQuery(query, arrayOf(id.toString()))
+        val cursor = db.rawQuery(query, arrayOf(id.toString(), userId))
 
         /*Comprueba el resultado. Si 'count' es mayor que 0, significa que ha encontrado
         * al menos una fila con ese ID, por lo tanto, el ID ya existe.
