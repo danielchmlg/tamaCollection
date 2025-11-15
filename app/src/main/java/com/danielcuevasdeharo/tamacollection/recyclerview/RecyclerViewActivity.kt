@@ -1,4 +1,4 @@
-package com.danielcuevasdeharo.tamacollection.recycleview
+package com.danielcuevasdeharo.tamacollection.recyclerview
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,20 +8,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.danielcuevasdeharo.tamacollection.DetailsActivity
 import com.danielcuevasdeharo.tamacollection.R
-import com.danielcuevasdeharo.tamacollection.recycleview.adapter.TamagotchiAdaptar
+import com.danielcuevasdeharo.tamacollection.recyclerview.adapter.TamagotchiAdaptar
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 
 
-class RecycleViewActivity : AppCompatActivity() {
+class RecyclerViewActivity : AppCompatActivity() {
     private lateinit var mlTama: TamaSQLite
     private lateinit var fabBack: FloatingActionButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_recycle_view)
+        setContentView(R.layout.activity_recycler_view)
         initComponent()
         initListener()
         initRecyclerView()

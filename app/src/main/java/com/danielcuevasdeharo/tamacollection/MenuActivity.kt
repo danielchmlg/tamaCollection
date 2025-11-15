@@ -8,8 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.danielcuevasdeharo.tamacollection.addtama.AddTamaActivity
 import com.danielcuevasdeharo.tamacollection.autentication.AuthActivity
 import com.danielcuevasdeharo.tamacollection.findtama.FindTamaActivity
-import com.danielcuevasdeharo.tamacollection.recycleview.RecycleViewActivity
-import com.google.android.gms.tasks.Task
+import com.danielcuevasdeharo.tamacollection.recyclerview.RecyclerViewActivity
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -74,7 +73,7 @@ class MenuActivity : AppCompatActivity() {
 
         btnNewTama.setOnClickListener { navigate(AddTamaActivity::class.java) }
         btnFindTama.setOnClickListener { navigate(FindTamaActivity::class.java) }
-        btnColTama.setOnClickListener { navigate(RecycleViewActivity::class.java) }
+        btnColTama.setOnClickListener { navigate(RecyclerViewActivity::class.java) }
     }
 
 

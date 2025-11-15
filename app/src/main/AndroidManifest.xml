@@ -15,7 +15,7 @@
             android:name=".DetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".recycleview.RecycleViewActivity"
+            android:name=".recyclerview.RecyclerViewActivity"
             android:exported="false" />
         <activity
             android:name=".findtama.FindAuxTamaActivity"

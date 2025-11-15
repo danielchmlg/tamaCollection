@@ -1,4 +1,4 @@
-package com.danielcuevasdeharo.tamacollection.recycleview.adapter
+package com.danielcuevasdeharo.tamacollection.recyclerview.adapter
 
 import android.view.View
 import android.widget.Button
