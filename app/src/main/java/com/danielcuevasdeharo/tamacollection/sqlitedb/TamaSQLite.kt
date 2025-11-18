@@ -34,8 +34,8 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         """.trimIndent()
         db.execSQL(createComercioTableQuery)
 
-        val createAdquisicionTableQuery = """
-            CREATE TABLE adquisicion(
+        val createCompraTableQuery = """
+            CREATE TABLE compra(
             adId INTEGER PRIMARY KEY AUTOINCREMENT,
             tamaId INTEGER NOT NULL,
             comId INTEGER NOT NULL,
@@ -44,7 +44,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             FOREIGN KEY (tamaId) REFERENCES tamas(id) ON DELETE CASCADE,
             FOREIGN KEY (comId) REFERENCES comercio(comId) ON DELETE CASCADE);
         """.trimIndent()
-        db.execSQL(createAdquisicionTableQuery)
+        db.execSQL(createCompraTableQuery)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
@@ -247,9 +247,9 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
     }
 
     /**
-     * C R U D adquisición
+     * C R U D compra
      */
-    fun insertAdquisicion(adquisicion: Adquisicion): Long {
+    fun insertCompra(compra: Compra): Long {
 
         var db: SQLiteDatabase? = null
         try {
@@ -257,23 +257,23 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             val contentValues = ContentValues()
 
             //No se incluye "adId" ya que es AUTOINCREMENT
-            contentValues.put("tamaId", adquisicion.tamaId)
-            contentValues.put("comId", adquisicion.comId)
-            contentValues.put("date", adquisicion.date)
-            contentValues.put("price", adquisicion.price)
+            contentValues.put("tamaId", compra.tamaId)
+            contentValues.put("comId", compra.comId)
+            contentValues.put("date", compra.date)
+            contentValues.put("price", compra.price)
             //Inserta la fila. Retorna el ID de la nueva fila o -1 si es erróneo
-            val adquisicionIn = db.insert("adquisicion", null, contentValues)
-            if (adquisicionIn > 0) {
-                adquisicion.adId = adquisicionIn.toInt()
+            val compraIn = db.insert("compra", null, contentValues)
+            if (compraIn > 0) {
+                compra.adId = compraIn.toInt()
             }
-            return adquisicionIn
+            return compraIn
         } finally {
             db?.close()
         }
 
     }
 
-    fun readAdquisicion(adId: Long): Adquisicion? { //Devuelve un objeto Adquisicion si existen datos
+    fun readCompra(adId: Long): Compra? { //Devuelve un objeto Compra si existen datos
 
         var db: SQLiteDatabase? = null
         var cursor: Cursor? = null
@@ -281,11 +281,11 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             //Obtenemos base de dato en formato lectura
             db = readableDatabase
             //Creamos la consulta a la BBDD y la almacenamos en selectQuery
-            val selecQuery = "SELECT * FROM adquisicion WHERE adId =?"
+            val selecQuery = "SELECT * FROM compra WHERE adId =?"
             //Instanciamos el cursor leerá los datos de cada columna
             cursor = db.rawQuery(selecQuery, arrayOf(adId.toString()))
             //creamos el objeto readCom que almacenará los resultados de la consulta
-            var readAd = Adquisicion(0, 0, 0, "", 0.0)
+            var readCompra = Compra(0, 0, 0, "", 0.0)
 
             if (cursor.moveToFirst()) {
                 val adId = cursor.getInt(cursor.getColumnIndexOrThrow("adId"))
@@ -293,9 +293,9 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
                 val comIdForeign = cursor.getInt(cursor.getColumnIndexOrThrow("comId"))
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
                 val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
-                readAd = Adquisicion(adId, tamaIdForeign, comIdForeign, date, price)
+                readCompra = Compra(adId, tamaIdForeign, comIdForeign, date, price)
                 // Si el cursor no está vacío devuelve el objeto readAd
-                return readAd
+                return readCompra
             }
         } finally {
             //Bloque que siempre se ejecuta
@@ -306,7 +306,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         return null
     }
 
-    fun update(adId: Long, newInfoAd: Adquisicion): Int {
+    fun update(adId: Long, newInfoAd: Compra): Int {
 
         var db: SQLiteDatabase? = null
         try {
@@ -319,8 +319,8 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             values.put("date", newInfoAd.date)
             values.put("price", newInfoAd.price)
             //Insertamos en la tabla "adquisicion" la nueva información
-            val updateAdq = db.update("adquisicion", values, "adId=?", arrayOf(adId.toString()))
-            return updateAdq
+            val updateCompra = db.update("compra", values, "adId=?", arrayOf(adId.toString()))
+            return updateCompra
         } finally {
             //Bloque que siemmpre se ejecuta
             db?.close()
@@ -328,15 +328,15 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
 
     }
 
-    fun deleteAdquisicion(adId: Long): Int {
+    fun deleteCompra(adId: Long): Int {
 
         var db: SQLiteDatabase? = null
         try {
             //Obtenemos la base de datos en formato escritura
             db = writableDatabase
             // Llamamos al función delete que almacenaremos en deleteCom
-            val deleteAd = db.delete("adquisicion", "adId=?", arrayOf(adId.toString()))
-            return deleteAd
+            val deleteCompra = db.delete("compra", "adId=?", arrayOf(adId.toString()))
+            return deleteCompra
         } finally {
             //Bloque que siempre se ejecuta
             db?.close()
@@ -416,7 +416,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         val detailsList = mutableListOf<DetallesCompra>()
         val db = this.readableDatabase //Obtenemos la base de datos en modo lectura
         val selectQuery =
-            "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
+            "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN compra AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
         var cursor: Cursor? = null
         try {
             cursor = db.rawQuery(selectQuery, arrayOf(tamaId.toString()))//añado el arrayOF
@@ -451,7 +451,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         try {
             db = this.readableDatabase //Obtenemos la base de datos en modo lectura
             val selectQuery =
-                "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN adquisicion AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=? AND T1.user_id = ?"
+                "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN compra AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=? AND T1.user_id = ?"
             cursor = db.rawQuery(selectQuery, arrayOf(tamaId.toString(), userId))
 
             if (cursor.moveToFirst()) {

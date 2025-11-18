@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.danielcuevasdeharo.tamacollection.R
-import com.danielcuevasdeharo.tamacollection.sqlitedb.Adquisicion
+import com.danielcuevasdeharo.tamacollection.sqlitedb.Compra
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Comercio
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
@@ -115,14 +115,14 @@ class AddTamaActivity : AppCompatActivity() {
             //Introducimos en la tabla comercio
             val comAdd = Comercio(comName = comName, ubication = comUbi)
             val idcom = dbAdd.insertComercio(comAdd)
-            //Introducimos en la tabla adquisicion
-            val adqAdd = Adquisicion(
+            //Introducimos en la tabla compra
+            val compraAdd = Compra(
                 tamaId = idTama,
                 comId = idcom.toInt(),
                 date = adqDate,
                 price = priceTama
             )
-            dbAdd.insertAdquisicion(adqAdd)
+            dbAdd.insertCompra(compraAdd)
 
             //Mensaje de registro satisfactorio
             Toast.makeText(this, "Se ha registrado el id $idTama", Toast.LENGTH_SHORT).show()

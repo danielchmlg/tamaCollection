@@ -1,8 +1,6 @@
 package com.danielcuevasdeharo.tamacollection.sqlitedb
 
-import java.sql.Date
-
-data class Adquisicion(
+data class Compra(
     var adId: Int? = null,
     var tamaId: Int,
     var comId: Int,
