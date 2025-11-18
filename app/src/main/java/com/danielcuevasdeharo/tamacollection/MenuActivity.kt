@@ -29,7 +29,7 @@ class MenuActivity : AppCompatActivity() {
         initListeners()
 
     }
-
+    //Función para iniciar los componentes
     private fun initComponent() {
         btnClose = findViewById(R.id.btnClose)
         btnNewTama = findViewById(R.id.btnNewTama)
@@ -53,7 +53,7 @@ class MenuActivity : AppCompatActivity() {
         }
 
     }
-
+    //Función para iniciar los Listeners
     private fun initListeners() {
         btnClose.setOnClickListener {
             //Para evitar doble click sobre el botón

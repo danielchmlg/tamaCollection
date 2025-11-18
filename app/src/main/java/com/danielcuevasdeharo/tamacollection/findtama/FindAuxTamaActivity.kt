@@ -32,7 +32,7 @@ class FindAuxTamaActivity : AppCompatActivity() {
         loadData()
 
     }
-
+    //Función para iniciar los componentes
     private fun initComponent() {
         db = TamaSQLite(this)
         btnDelete = findViewById(R.id.btnDelete)
@@ -47,7 +47,7 @@ class FindAuxTamaActivity : AppCompatActivity() {
         tvAdqDate = findViewById(R.id.tvAdqDate)
 
     }
-
+    //Función para iniciar Listeners
     private fun initListener() {
         btnBackData.setOnClickListener { finish() }
 

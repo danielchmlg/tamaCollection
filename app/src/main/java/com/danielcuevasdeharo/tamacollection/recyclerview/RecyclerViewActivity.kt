@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.danielcuevasdeharo.tamacollection.DetailsActivity
 import com.danielcuevasdeharo.tamacollection.R
-import com.danielcuevasdeharo.tamacollection.recyclerview.adapter.TamagotchiAdaptar
+import com.danielcuevasdeharo.tamacollection.recyclerview.adapter.TamagotchiAdapter
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,16 +28,16 @@ class RecyclerViewActivity : AppCompatActivity() {
 
 
     }
-
+    //Función para iniciar los componentes
     private fun initComponent() {
         mlTama = TamaSQLite(this)
         fabBack = findViewById(R.id.fabReturn)
     }
-
+    //Función para iniciar los Listeners
     private fun initListener() {
         fabBack.setOnClickListener { finish() }
     }
-
+    //Función para iniciar el RecyclerView
     private fun initRecyclerView() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycleTama)
@@ -53,14 +53,14 @@ class RecyclerViewActivity : AppCompatActivity() {
             //Obtenemos la lista actualizada desde la base de datos
             val updatedList = mlTama.getAllTama(userId)
             //Actualiza el adaptador con la nueva lista
-            (recyclerView.adapter as? TamagotchiAdaptar)?.updateData(updatedList)
+            (recyclerView.adapter as? TamagotchiAdapter)?.updateData(updatedList)
 
         }
 
         recyclerView.adapter =
-            TamagotchiAdaptar(mlTama.getAllTama(userId), onDetailsClicked, onDeleteClicked)
+            TamagotchiAdapter(mlTama.getAllTama(userId), onDetailsClicked, onDeleteClicked)
     }
-
+    //Función para navegar a DetailsActivity
     private fun navigateToDetails(tamaId: Int) {
         val intent = Intent(this, DetailsActivity::class.java)
         // Empaquetamos el ID del Tamagotchi

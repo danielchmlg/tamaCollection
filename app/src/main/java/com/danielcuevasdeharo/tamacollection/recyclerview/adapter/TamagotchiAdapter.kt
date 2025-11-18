@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.danielcuevasdeharo.tamacollection.R
 import com.danielcuevasdeharo.tamacollection.sqlitedb.Tamagotchi
 
-class TamagotchiAdaptar(
+class TamagotchiAdapter(
     private var tamagotchiList: MutableList<Tamagotchi>,
     private val onDetailsClicked: (Tamagotchi) -> Unit,
     private val onDeleteClicked: (Tamagotchi) -> Unit

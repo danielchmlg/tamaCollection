@@ -24,14 +24,14 @@ class FindTamaActivity : AppCompatActivity() {
         initListener()
 
     }
-
+    //Función para iniciar los componentes
     private fun initComponent() {
         btnFind = findViewById(R.id.btnFind)
         btnBackFind = findViewById(R.id.btnBackFind)
         etIdFind = findViewById(R.id.etIdFind)
         db = TamaSQLite(this)
     }
-
+    //Función para iniciar los Listeners
     private fun initListener() {
         //Configuramos botón de buscar
         btnFind.setOnClickListener {

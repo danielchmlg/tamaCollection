@@ -36,7 +36,7 @@ class AddTamaActivity : AppCompatActivity() {
         initComponent()
         initListener()
     }
-
+    //función para iniciar los componentes
     private fun initComponent() {
         dbAdd = TamaSQLite(this)
         btnSaveTama = findViewById(R.id.btnSaveTama)
@@ -50,7 +50,7 @@ class AddTamaActivity : AppCompatActivity() {
         etComUbi = findViewById(R.id.etComUbi)
         etAdqDate = findViewById(R.id.etAdqDate)
     }
-
+    //Función para iniciar los Listeners
     private fun initListener() {
         etAdqDate.setOnClickListener { viewDatePicker() }
         btnBackAdd.setOnClickListener { finish() }
