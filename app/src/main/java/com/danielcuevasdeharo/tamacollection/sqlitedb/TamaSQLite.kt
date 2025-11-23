@@ -122,7 +122,6 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
             db = writableDatabase
             //Instanciamos a ContentValues para almacenar el conjunto de valores
             val values = ContentValues()
-            values.put("id", newInfoTama.id)
             values.put("name", newInfoTama.name)
             values.put("generation", newInfoTama.generation)
             values.put("year", newInfoTama.year)
@@ -496,6 +495,36 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         db.close()
         //Devuelve el resultado. 'idExists' será 'true' o 'false'.
         return idExists
+    }
+    /* Función auxiliar para obtener los IDs relacionados (Compra y Comercio) dado un Tamagotchi
+     * Devuelve un Pair: (adId, comId) o null si no encuentra nada
+     */
+    fun getRelatedIds(tamaId: String, userId: String): Pair<Int, Int>? {
+        val db = this.readableDatabase
+        var cursor: Cursor? = null
+        try {
+            // Hacemos JOIN para asegurarnos de que el Tamagotchi pertenece al usuario actual
+            val query = """
+                SELECT C.adId, C.comId 
+                FROM compra C 
+                JOIN tamas T ON C.tamaId = T.id 
+                WHERE T.id = ? AND T.user_id = ?
+            """.trimIndent()
+
+            cursor = db.rawQuery(query, arrayOf(tamaId, userId))
+
+            if (cursor.moveToFirst()) {
+                val adId = cursor.getInt(cursor.getColumnIndexOrThrow("adId"))
+                val comId = cursor.getInt(cursor.getColumnIndexOrThrow("comId"))
+                return Pair(adId, comId)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            cursor?.close()
+            db.close()
+        }
+        return null
     }
 
 

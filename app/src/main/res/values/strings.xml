@@ -20,6 +20,7 @@
     <string name="tama_btn_find">Buscar</string>
     <string name="tama_data">Datos Tamagotchi</string>
     <string name="tama_delete">Borrar</string>
+    <string name="tama_edit">Editar</string>
     <string name="tama_update">Actualizar</string>
     <string name="id">Id</string>
     <string name="name">Nombre</string>

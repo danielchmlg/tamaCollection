@@ -1,11 +1,13 @@
 package com.danielcuevasdeharo.tamacollection.findtama
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.danielcuevasdeharo.tamacollection.R
+import com.danielcuevasdeharo.tamacollection.addtama.AddTamaActivity
 import com.danielcuevasdeharo.tamacollection.sqlitedb.TamaSQLite
 import com.google.firebase.auth.FirebaseAuth
 
@@ -21,6 +23,7 @@ class FindAuxTamaActivity : AppCompatActivity() {
     private lateinit var tvComName: TextView
     private lateinit var tvComUbi: TextView
     private lateinit var tvAdqDate: TextView
+    private lateinit var btnEdit: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,7 @@ class FindAuxTamaActivity : AppCompatActivity() {
         tvComName = findViewById(R.id.tvComName)
         tvComUbi = findViewById(R.id.tvComUbi)
         tvAdqDate = findViewById(R.id.tvAdqDate)
+        btnEdit = findViewById(R.id.btnEditTama)
 
     }
     //Función para iniciar Listeners
@@ -64,6 +68,30 @@ class FindAuxTamaActivity : AppCompatActivity() {
 
             }
 
+        }
+        btnEdit.setOnClickListener {
+            val idString = tvId.text.toString() // Obtenemos el ID del TextView
+            if (idString.isNotEmpty()) {
+                val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+                // Usamos la función getRelatedIds para obtener los Id ocultos de adId y comId
+                val relatedIds = db.getRelatedIds(idString, userId)
+
+                if (relatedIds != null) {
+                    val (adId, comId) = relatedIds
+
+                    val intentEdit = Intent(this, AddTamaActivity::class.java)
+                    intentEdit.putExtra("EDIT_MODE", true)
+                    intentEdit.putExtra("TAMA_ID", idString)
+                    intentEdit.putExtra("AD_ID", adId)
+                    intentEdit.putExtra("COM_ID", comId)
+
+                    startActivity(intentEdit)
+                    finish() // Cerramos para que al volver se recarguen los datos
+                } else {
+                    Toast.makeText(this, "Error: No se encontraron los datos internos.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
     }
