@@ -416,7 +416,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         }
         return null
     }
-    fun isIdInUse(id: Int, userId: String): Boolean {
+    fun isTamaIdInUse(id: Int, userId: String): Boolean {
         // Obtenemos la base de datos en formato lectura
         val db = this.readableDatabase
 
@@ -439,7 +439,7 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
     /* Función auxiliar para obtener los IDs relacionados (Compra y Comercio) dado un Tamagotchi
      * Devuelve un Pair: (adId, comId) o null si no encuentra nada
      */
-    fun getRelatedIds(tamaId: String, userId: String): Pair<Int, Int>? {
+    fun getFkIds(tamaId: String, userId: String): Pair<Int, Int>? {
         val db = this.readableDatabase
         var cursor: Cursor? = null
         try {

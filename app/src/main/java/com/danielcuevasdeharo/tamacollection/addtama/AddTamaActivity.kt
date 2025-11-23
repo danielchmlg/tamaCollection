@@ -40,7 +40,7 @@ class AddTamaActivity : AppCompatActivity() {
 
         initComponent()
         initListener()
-        checkEditMode()
+        editModeConfig()
 
     }
     //función para iniciar los componentes
@@ -61,10 +61,10 @@ class AddTamaActivity : AppCompatActivity() {
     private fun initListener() {
         etAdqDate.setOnClickListener { viewDatePicker() }
         btnBackAdd.setOnClickListener { finish() }
-        btnSaveTama.setOnClickListener { saveData() }
+        btnSaveTama.setOnClickListener { saveTamaData() }
     }
 
-    private fun checkEditMode() {
+    private fun editModeConfig() {
         if (intent.getBooleanExtra("EDIT_MODE", false)) {
             isEditMode = true
             // Recuperamos los IDs que nos mandó la otra pantalla
@@ -81,10 +81,10 @@ class AddTamaActivity : AppCompatActivity() {
             etIdTama.isEnabled = false
 
             // Cargamos los datos existentes
-            loadDataForEdit()
+            loadForEdit()
         }
     }
-    private fun loadDataForEdit() {
+    private fun loadForEdit() {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
 
         //Leemos el Tamagotchi (Tabla 'tamas')
@@ -112,7 +112,7 @@ class AddTamaActivity : AppCompatActivity() {
     }
 
     //Función para commprobar que los campos no estén vacios y se introduzcan los datos correctos
-    private fun saveData() {
+    private fun saveTamaData() {
         //Recogemos los datos de los EditText
         val idString = etIdTama.text.toString()
         val nameTama = etNameTama.text.toString().trim()
@@ -143,7 +143,7 @@ class AddTamaActivity : AppCompatActivity() {
         // Si estamos editando, es normal que el ID ya exista por lo que nos saltamos este check.
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         if (!isEditMode) {
-            if (dbAdd.isIdInUse(idTama, userId)) {
+            if (dbAdd.isTamaIdInUse(idTama, userId)) {
                 Toast.makeText(this, "El ID $idTama ya se encuentra registrado", Toast.LENGTH_SHORT).show()
                 return
             }

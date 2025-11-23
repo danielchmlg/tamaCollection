@@ -50,7 +50,7 @@ class FindTamaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             //Comprobamos si el id que se quiere registrar ya está registrado
-            if ((!db.isIdInUse(idNumber, userId))) {
+            if ((!db.isTamaIdInUse(idNumber, userId))) {
                 Toast.makeText(
                     this,
                     " El ID $idNumber no se encuentra registrado",

@@ -75,7 +75,7 @@ class FindAuxTamaActivity : AppCompatActivity() {
                 val userId = FirebaseAuth.getInstance().currentUser!!.uid
 
                 // Usamos la función getRelatedIds para obtener los Id ocultos de adId y comId
-                val relatedIds = db.getRelatedIds(idString, userId)
+                val relatedIds = db.getFkIds(idString, userId)
 
                 if (relatedIds != null) {
                     val (adId, comId) = relatedIds
