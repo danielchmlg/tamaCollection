@@ -90,8 +90,7 @@ class AddTamaActivity : AppCompatActivity() {
         //Leemos el Tamagotchi (Tabla 'tamas')
         val tama = dbAdd.read(originalTamaId!!.toLong(), userId)
 
-        //Leemos los detalles (Tablas 'comercio' y 'compra')
-        // Usamos la función readTamaDetails
+        //Leemos los detalles (Tablas 'comercio' y 'compra'). Usamos la función readTamaDetails
         val details = dbAdd.readTamaDetails(originalTamaId!!.toInt(), userId)
 
         if (tama != null && details != null) {
@@ -114,7 +113,7 @@ class AddTamaActivity : AppCompatActivity() {
 
     //Función para commprobar que los campos no estén vacios y se introduzcan los datos correctos
     private fun saveData() {
-        // 1. Recogemos los datos de los EditText
+        //Recogemos los datos de los EditText
         val idString = etIdTama.text.toString()
         val nameTama = etNameTama.text.toString().trim()
         val genTama = etGenTama.text.toString().trim()
@@ -160,7 +159,7 @@ class AddTamaActivity : AppCompatActivity() {
             val comObj = Comercio(comIdToUse, comName, comUbi)
 
             val adIdToUse = if (isEditMode) originalAdId else null
-            // Nota: comId se pone temporalmente a 0 o al viejo, luego se ajusta si es inserción
+            //comId se pone temporalmente a 0 o al viejo, luego se ajusta si es inserción
             val compraObj = Compra(
                 adId = adIdToUse,
                 tamaId = idTama,

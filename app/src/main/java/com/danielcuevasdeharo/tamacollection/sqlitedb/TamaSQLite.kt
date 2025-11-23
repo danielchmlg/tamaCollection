@@ -342,34 +342,6 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
         }
     }
 
-
-    /**
-     * Función para obtener el número de Tamagotchis de la colección
-     */
-
-    fun getNumTama(): Int {
-        var db: SQLiteDatabase? = null
-        var cursor: Cursor? = null
-        try {
-
-            //Obtenemos la base de datos en formato lectura
-            db = readableDatabase
-            val selectQuery = "SELECT count (*) as numTama FROM tamas"
-            //Instanciamos el cursor que leerá los datos de cada columna
-            cursor = db.rawQuery(selectQuery, null)
-            var num = 0
-            if (cursor.moveToFirst()) {
-                num = cursor.getInt(cursor.getColumnIndexOrThrow("numTama"))
-
-            }
-            return num
-
-        } finally {
-            cursor?.close()
-            db?.close()
-        }
-    }
-
     /**
      * Funciones para recorrer lo almacenado en las tablas
      */
@@ -410,38 +382,6 @@ class TamaSQLite(context: Context) : SQLiteOpenHelper(context, "tama.db", null, 
 
     }
 
-    fun getPurchasingDetails(tamaId: Int): MutableList<DetallesCompra> {
-
-        val detailsList = mutableListOf<DetallesCompra>()
-        val db = this.readableDatabase //Obtenemos la base de datos en modo lectura
-        val selectQuery =
-            "SELECT T2.comName, T2.ubication, T3.price, T3.date FROM tamas AS T1 JOIN compra AS T3 ON T1.id =T3.tamaId JOIN comercio AS T2 ON T3.comId = T2.comId WHERE T1.id=?"
-        var cursor: Cursor? = null
-        try {
-            cursor = db.rawQuery(selectQuery, arrayOf(tamaId.toString()))//añado el arrayOF
-
-            if (cursor.moveToFirst()) {
-
-                do { //obtenemos los valores a partir del nombre de las columnas
-                    val comName = cursor.getString(cursor.getColumnIndexOrThrow("comName"))
-                    val ubication = cursor.getString(cursor.getColumnIndexOrThrow("ubication"))
-                    val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
-                    val date = cursor.getString((cursor.getColumnIndexOrThrow("date")))
-                    detailsList.add(DetallesCompra(comName, ubication, price, date))
-
-                } while (cursor.moveToNext())
-
-            }
-        } catch (e: Exception) {
-            e.printStackTrace() //Manejamos la excepción, en este caso un Log
-        } finally {
-
-            //Nos aseguramos cerrar siempre el cursor y la base de datos
-            cursor?.close()
-            db.close()
-        }
-        return detailsList
-    }
 
     fun readTamaDetails(tamaId: Int, userId: String): DetallesCompra? {
         var cursor: Cursor? = null
